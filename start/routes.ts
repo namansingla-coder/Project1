@@ -24,4 +24,5 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/signup', 'AuthController.signup')
+Route.post('/signup', 'AuthController.signup').middleware('signup')
+Route.post('/login', 'AuthController.login').middleware('login')
