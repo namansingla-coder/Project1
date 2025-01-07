@@ -1,8 +1,21 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
+import UnaunthenticatorException from '../Exceptions/UnaunthenticatorException'
+import jwt from 'jsonwebtoken'
+import { appKey } from 'Config/app'
 export default class SigupMiddlelayer {
-  public async handle({}: HttpContextContract, next: () => Promise<void>) {
-    console.log("The code of signup middle layer is here")
+  public async handle(ctx: HttpContextContract, next: () => Promise<void>) {
+    const token = ctx.request.headers().authorization
+    console.log("token", token)
+    if(!token){
+        throw new UnaunthenticatorException("Token is required")
+    }
+    try{
+        const data = jwt.verify(token, appKey)
+        ctx.request.loggedInUser = data.find(user => user.id === data.sub)
+        console.log(ctx.request.loggedInUser)
+    }catch(error){
+        throw new UnaunthenticatorException("Token is invalid")
+    }
     await next()
     console.log("The code of end signup middle layer is here")
   }
