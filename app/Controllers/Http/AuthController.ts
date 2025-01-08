@@ -15,14 +15,11 @@ export default class AuthController {
     }
     public async login(ctx: HttpContextContract) {
         const payload = await ctx.request.validate(LoginValidator)
-        console.log(payload)
-        console.log(data)
         const user = data.find(user => user.email === payload.email && user.password === payload.password)
-        console.log(user)
-        if(!user){
+        if (!user) {
             throw new UnaunthenticatorException("Invalid email or password")
         }
-        const token = jwt.sign({sub: user.id}, appKey, {expiresIn: 60*60, jwtid: '1'})
+        const token = jwt.sign({ sub: user.id }, appKey, { expiresIn: 60 * 60, jwtid: '1' })
         return {
             payload,
             token
