@@ -48,24 +48,7 @@ const databaseConfig: DatabaseConfig = {
         naturalSort: true,
       },
       useNullAsDefault: true,
-      healthCheck: true,
-      debug: false,
-    },
-    sqlite2: {
-      client: 'sqlite',
-      connection: {
-        filename: Application.tmpPath('db.sqlite3_2'),
-      },
-      pool: {
-        afterCreate: (conn, cb) => {
-          conn.run('PRAGMA foreign_keys=true', cb)
-        }
-      },
-      migrations: {
-        naturalSort: true,
-      },
-      useNullAsDefault: true,
-      healthCheck: true,
+      healthCheck: false,
       debug: false,
     },
 
