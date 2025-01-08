@@ -26,3 +26,6 @@ Route.get('/', async () => {
 
 Route.post('/signup', 'AuthController.signup').middleware('signup')
 Route.post('/login', 'AuthController.login').middleware('login')
+Route.group(() => {
+  Route.resource('users', 'UsersController').apiOnly(); 
+}).middleware('auth') 
